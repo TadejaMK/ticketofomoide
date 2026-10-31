@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ticket of Omoide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="images/nos.ico">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap site-head__inner">
+    <span class="brand">MEMORY TICKET</span>
+    <div class="site-head__right">
+      <span class="brand__no">ARCHIVE No. 001</span>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark and light mode">
+        <span class="theme-toggle__track">
+          <span class="theme-toggle__thumb"></span>
+        </span>
+        <span class="theme-toggle__label" id="themeLabel">Light</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero__intro">
+    <h1 class="hero__title">Every memory deserves a stub.</h1>
+    <p class="hero__sub">Drop in a photo, note the details, and craft a timeless keepsake ticket stored securely in your browser.</p>
+  </div>
+</section>
+
+<main id="make" class="wrap builder">
+
+  <div class="panel form-panel">
+    <h2 class="panel__label">01 — Configure Stub</h2>
+
+    <div class="field">
+      <label for="photoInput">Photo</label>
+      <div class="drop" id="dropZone">
+        <input type="file" id="photoInput" accept="image/*">
+        <span id="dropText">Click or drop an image</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="titleInput">Title</label>
+      <input type="text" id="titleInput" maxlength="28" value="UNTITLED MEMORY" placeholder="UNTITLED MEMORY">
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="placeInput">Location</label>
+        <input type="text" id="placeInput" maxlength="22" value="SOMEWHERE" placeholder="SOMEWHERE">
+      </div>
+      <div class="field">
+        <label for="dateInput">Date</label>
+        <input type="date" id="dateInput">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="noteInput">Note <span class="field__opt">(optional)</span></label>
+      <input type="text" id="noteInput" maxlength="46" value="Add a note to remember it by." placeholder="Add a note to remember it by.">
+    </div>
+
+    <div class="field">
+      <label for="seatInput">Seat / Tag <span class="field__opt">(optional)</span></label>
+      <input type="text" id="seatInput" maxlength="10" value="GA" placeholder="GA">
+    </div>
+
+    <div class="actions">
+      <button class="btn btn--primary" id="saveBtn" type="button">Save to Vault</button>
+      <button class="btn btn--ghost" id="downloadBtn" type="button">Download PNG</button>
+    </div>
+    <p class="hint" id="statusMsg" role="status"></p>
+  </div>
+
+  <div class="panel preview-panel">
+    <h2 class="panel__label">02 — Live Preview</h2>
+    <div class="ticket-stage">
+      <div class="ticket" id="ticket">
+        <div class="ticket__photo" id="ticketPhoto">
+          <span class="ticket__photo-hint">Photo appears here</span>
+        </div>
+        <div class="ticket__perf" aria-hidden="true"></div>
+        <div class="ticket__body">
+          <div class="ticket__title" id="ticketTitle">UNTITLED MEMORY</div>
+          <div class="ticket__meta">
+            <span id="ticketPlace">SOMEWHERE</span>
+            <span class="dot">·</span>
+            <span id="ticketDate">26.09.2026</span>
+          </div>
+          <div class="ticket__rule"></div>
+          <div class="ticket__note" id="ticketNote">Add a note to remember it by.</div>
+        </div>
+        <div class="ticket__stub-sep" aria-hidden="true"></div>
+        <div class="ticket__stub">
+          <div class="ticket__barcode" aria-hidden="true"></div>
+          <div class="ticket__seat" id="ticketSeat">GA</div>
+          <div class="ticket__serial" id="ticketSerial">TCK-515059</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<section class="collection wrap" id="collectionSection">
+  <h2 class="panel__label">03 — Vault Collection</h2>
+  <div class="collection__grid" id="collectionGrid">
+    <p class="collection__empty" id="collectionEmpty">Saved stubs will appear here in your browser vault.</p>
+  </div>
+</section>
+
+<footer class="site-foot">
+  <div class="wrap">Keepsake studio. Local browser storage only.</div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Ticket Inspector">
+    <button type="button" class="modal__close" id="modalClose" aria-label="Close">&times;</button>
+    <div class="ticket-stage ticket-stage--modal">
+      <div class="ticket" id="modalTicket">
+        <div class="ticket__photo" id="modalPhoto"></div>
+        <div class="ticket__perf" aria-hidden="true"></div>
+        <div class="ticket__body">
+          <div class="ticket__title" id="modalTitle"></div>
+          <div class="ticket__meta">
+            <span id="modalPlace"></span>
+            <span class="dot">·</span>
+            <span id="modalDate"></span>
+          </div>
+          <div class="ticket__rule"></div>
+          <div class="ticket__note" id="modalNote"></div>
+        </div>
+        <div class="ticket__stub-sep" aria-hidden="true"></div>
+        <div class="ticket__stub">
+          <div class="ticket__barcode" aria-hidden="true"></div>
+          <div class="ticket__seat" id="modalSeat"></div>
+          <div class="ticket__serial" id="modalSerial"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--primary" id="modalLoadBtn" type="button">Load into Editor</button>
+      <button class="btn btn--ghost" id="modalDownloadBtn" type="button">Download PNG</button>
+      <button class="btn btn--ghost mini-btn--danger" id="modalDeleteBtn" type="button">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="script.g.js"></script>
+</body>
+</html>
